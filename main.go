@@ -11,12 +11,12 @@ import (
 var (
 	projectId = os.Getenv("GCP_PROJECT")
 
-	sta fn.ComputePricelistHistoriesState
+	sta fn.ComputeLiveAuctionsState
 	err error
 )
 
 func init() {
-	sta, err = fn.NewComputePricelistHistoriesState(fn.ComputePricelistHistoriesStateConfig{ProjectId: projectId})
+	sta, err = fn.NewComputeLiveAuctionsState(fn.ComputeLiveAuctionsStateConfig{ProjectId: projectId})
 	if err != nil {
 		logging.WithField("error", err.Error()).Fatal("Failed to establish state")
 
@@ -28,6 +28,6 @@ type PubSubMessage struct {
 	Data []byte `json:"data"`
 }
 
-func ComputePricelistHistories(_ context.Context, m PubSubMessage) error {
+func ComputeLiveAuctions(_ context.Context, m PubSubMessage) error {
 	return sta.Run(string(m.Data))
 }
